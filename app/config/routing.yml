@@ -1,3 +1,11 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+cities:
+    type:     rest
+    resource: AppBundle\Controller\CitiesController
+
+categories:
+    type:     rest
+    resource: AppBundle\Controller\CategoriesController

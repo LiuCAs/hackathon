@@ -29,6 +29,8 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
+    serializer:
+        enabled: true
 
 # Twig Configuration
 twig:
@@ -64,3 +66,21 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+fos_rest:
+    disable_csrf_role: ROLE_API
+    param_fetcher_listener: true
+    routing_loader:
+            default_format: json
+    view:
+        formats:
+            json: true
+            xml:  true
+            html: false
+        templating_formats:
+            html: false
+        force_redirects:
+            html: false
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+        view_response_listener: force
