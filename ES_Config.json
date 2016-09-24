@@ -1,0 +1,52 @@
+{
+  "settings": {
+    "analysis": {
+      "tokenizer": {
+        "edgengram_tokenizer": {
+          "type": "edgeNGram",
+          "min_gram": 1,
+          "max_gram": 50,
+          "token_chars": [
+            "letter",
+            "digit"
+          ]
+        }
+      },
+      "filter": {
+        "desc_edgeNGram": {
+          "type": "edgeNGram",
+          "min_gram": 1,
+          "max_gram": 50
+        }
+      },
+      "analyzer": {
+        "index_NGram": {
+          "type": "custom",
+          "tokenizer": "edgengram_tokenizer",
+          "filter": [
+            "desc_edgeNGram",
+            "lowercase"
+          ]
+        },
+        "search_NGram": {
+          "type": "custom",
+          "tokenizer": "edgengram_tokenizer",
+          "filter": [
+            "lowercase"
+          ]
+        }
+      }
+    }
+  },
+  "mappings": {
+    "category": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "analyzer": "index_NGram",
+          "search_analyzer": "search_NGram"
+        }
+      }
+    }
+  }
+}
