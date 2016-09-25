@@ -2,27 +2,35 @@
 // src/AppBundle/Command/InterpelacjeCommand.php
 namespace AppBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use AppBundle\Entity\Point;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class PracaCommand extends Command
+class PracaCommand extends ContainerAwareCommand
 {
     const ITEM_PER_PAGE = 20;
+
+    const CITY_CODE = 3064;
 
     const GOOGLE_API_KEY = "AIzaSyAVmwCNz1smHBx6C1I1h-lXzs6U2HdHQUo";
 
     const DATA_ADDRESS = 'http://bip.poznan.pl/api-json/bip/oferty-pracy/';
 
+    private $categoryId;
+
     protected function configure()
     {
         $this
             ->setName('app:praca')
+            ->addArgument('category_id', InputArgument::REQUIRED, 'ID Kategori')
             ->setDescription('Parsowanie ofert pracy');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->categoryId = $input->getArgument('category_id');
         $this->prepareParser();
     }
 
@@ -57,18 +65,22 @@ class PracaCommand extends Command
                 foreach ($ite->oferty_pracy->items as $singleItem) {
                     foreach ($singleItem as $offer) {
                         foreach ($offer as $oferta) {
-
-                            $returnArray[$i]['subject'] = $oferta->stanowisko . " - " . $oferta->nazwa_organizacja;
-                            $returnArray[$i]['date'] = $oferta->data_publikacji;
-                            $returnArray[$i]['internal_id'] = $oferta->id;
-                            $returnArray[$i]['details'] = $oferta->link;
+                            $PointModel = new Point();
+                            $PointModel->setCategory($this->categoryId);
+                            $PointModel->setCity(self::CITY_CODE);
+                            $PointModel->setSubject($oferta->stanowisko . " - " . $oferta->nazwa_organizacja);
+                            $PointModel->setDate($oferta->data_publikacji);
+                            $PointModel->setInternalId($oferta->id);
+                            $PointModel->setDetails($oferta->link);
                             $str = trim(preg_replace('/\s*\([^)]*\)/', '', $oferta->nazwa_organizacja));
                             $streetQuery = $this->prepareQuery($str);
                             $geo = $this->getLatLong($streetQuery);
-                            $returnArray[$i]['lat'] = $geo->lat;
-                            $returnArray[$i]['lng'] = $geo->lng;
-                            var_dump($geo);
-                            die;
+                            $PointModel->setLat($geo->lat);
+                            $PointModel->setLng($geo->lng);
+
+                            $em = $this->getContainer()->get('doctrine')->getManager('default');
+                            $em->persist($PointModel);
+                            $em->flush();
                         }
                     }
                 }
