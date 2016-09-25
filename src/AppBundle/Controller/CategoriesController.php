@@ -9,21 +9,10 @@ class CategoriesController extends FOSRestController
 {
     public function getCategoryAction($id)
     {
-        $defaultCords = [
-            '1' => [
-                'lat' => '52.406374',
-                'lng' => '16.9251681'
-            ],
-            '2' => [
-                'lat' => '52.406374',
-                'lng' => '16.9251681'
-            ],
-            '3' => [
-                'lat' => '51.2464536',
-                'lng' => '22.5684463'
-            ],
-        ];
         $em = $this->getDoctrine()->getManager();
+
+        $category = $em->getRepository('AppBundle:Category')->find($id);
+
         $query = $em->createQuery(
             'SELECT p
                FROM AppBundle:Point p
@@ -32,8 +21,8 @@ class CategoriesController extends FOSRestController
                 AND (p.lat != :lat AND p.lng != :lng)'
         )
             ->setParameter('id', $id)
-            ->setParameter('lat', $defaultCords[$id]['lat'])
-            ->setParameter('lng', $defaultCords[$id]['lng']);
+            ->setParameter('lat', $category->getLat())
+            ->setParameter('lng', $category->getLng());
 
         $points = $query->getResult();
 

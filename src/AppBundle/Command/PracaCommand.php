@@ -70,7 +70,7 @@ class PracaCommand extends ContainerAwareCommand
 
         $jsonDecoded = json_decode($json);
         $returnArray = [];
-        $i = 0;
+
         foreach ($jsonDecoded as $item) {
             foreach ($item->data as $ite) {
                 foreach ($ite->oferty_pracy->items as $singleItem) {
@@ -127,7 +127,8 @@ class PracaCommand extends ContainerAwareCommand
     }
 
     private function parseDetails($details) {
-        $content = file_get_contents($details);
-        return $content;
+        $content = json_decode(file_get_contents($details));
+        $bipKey = "bip.poznan.pl";
+        return json_encode($content->{$bipKey}->data[0]->oferty_pracy->items[0]);
     }
 }

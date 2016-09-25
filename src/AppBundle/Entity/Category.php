@@ -35,6 +35,27 @@ class Category
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lat", type="string", length=50)
+     */
+    private $lat;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="lng", type="string", length=50)
+     */
+    private $lng;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city_name", type="string", length=100)
+     */
+    private $city_name;
+
 
     /**
      * Get id
@@ -92,6 +113,78 @@ class Category
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * Set lat
+     *
+     * @param string $lat
+     *
+     * @return Category
+     */
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get lat
+     *
+     * @return string
+     */
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set lng
+     *
+     * @param string $lng
+     *
+     * @return Category
+     */
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    /**
+     * Get lng
+     *
+     * @return string
+     */
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Set cityName
+     *
+     * @param string $cityName
+     *
+     * @return Category
+     */
+    public function setCityName($cityName)
+    {
+        $this->city_name = $cityName;
+
+        return $this;
+    }
+
+    /**
+     * Get cityName
+     *
+     * @return string
+     */
+    public function getCityName()
+    {
+        return $this->city_name;
     }
 }
 

@@ -10,33 +10,9 @@ class ConfigController extends FOSRestController
 
     public function getConfigAction()
     {
-        $response = [
-            [
-                'city' => '3064',
-                'cityName' => 'Poznan',
-                'categoryId' => '1',
-                'categoryName' => 'Interpelacje',
-                'lat' => '52.406374',
-                'long' => '16.9251681'
-            ],
-            [
-                'city' => '3064',
-                'cityName' => 'Poznan',
-                'categoryId' => '2',
-                'categoryName' => 'Oferty Pracy',
-                'lat' => '52.406374',
-                'long' => '16.9251681'
-            ],
-            [
-                'city' => '663',
-                'cityName' => 'Lublin',
-                'categoryId' => '3',
-                'categoryName' => 'Interpelacje',
-                'lat' => '51.2464536',
-                'long' => '22.5684463'
-            ],
-        ];
+        $em = $this->getDoctrine();
+        $entities = $em->getRepository('AppBundle:Category')->findAll();
 
-        return $this->view($response, Response::HTTP_OK);
+        return $this->view($entities, Response::HTTP_OK);
     }
 }
