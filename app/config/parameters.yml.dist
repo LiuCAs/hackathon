@@ -20,3 +20,6 @@ parameters:
 
     elastic_host: http://127.0.0.1
     elastic_port: 9200
+
+    google_api_key: ~
+

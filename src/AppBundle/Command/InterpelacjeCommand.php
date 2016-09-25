@@ -15,9 +15,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
 {
     const ITEM_PER_PAGE = 50;
 
-    const CITY_CODE = "3064";
-
-    const GOOGLE_API_KEY = "AIzaSyAVmwCNz1smHBx6C1I1h-lXzs6U2HdHQUo";
+    const CITY_CODE = 3064;
 
     const DATA_ADDRESS = 'http://bip.poznan.pl/api-json/bip/interpelacje/';
 
@@ -33,6 +31,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
     private $_container;
     private $_doctrine;
     private $_em;
+    private $_googleApiKey;
 
     protected function configure()
     {
@@ -47,6 +46,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
         $this->_container = $this->getContainer();
         $this->_doctrine = $this->_container->get('doctrine');
         $this->_em = $this->_doctrine->getManager();
+        $this->_googleApiKey = $this->_container->getParameter('google_api_key');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -185,7 +185,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
         $addressString = rawurlencode(implode("+", $address));
         $addressString .= ",+Poznań";
         $addressString .= ",+Poland";
-        $addressString .= "&key=" . self::GOOGLE_API_KEY;
+        $addressString .= "&key=" . $this->_googleApiKey;
         $url = $baseAddress . $addressString;
         $json = json_decode(file_get_contents($url));
         return $json->results[0]->geometry->location;

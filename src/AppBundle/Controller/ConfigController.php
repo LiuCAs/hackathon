@@ -28,7 +28,7 @@ class ConfigController extends FOSRestController
                 'long' => '16.9251681'
             ],
             [
-                'city' => '0663',
+                'city' => '663',
                 'cityName' => 'Lublin',
                 'categoryId' => '3',
                 'categoryName' => 'Interpelacje',
