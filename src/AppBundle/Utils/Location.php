@@ -21,7 +21,15 @@ class Location
             'query' => (string) $text
         );
 
-        return $this->request('/teryt/ulice/_search', 'POST', $query);
+        $var = $this->request('/teryt/ulice/_search', 'POST', $query);
+
+        $var = (json_decode($var));
+
+        if(!empty($var->hits->hits)) {
+            return $var->hits->hits[0]->_source->name;
+        } else {
+            return null;
+        }
     }
 
     private function request($path, $method = 'GET', array $content = array())
