@@ -34,7 +34,7 @@ class ElasticCommand extends ContainerAwareCommand
         $this->_container = $this->getContainer();
         $this->_doctrine = $this->_container->get('doctrine');
         $this->_em = $this->_doctrine->getManager();
-        $this->_elasticPort = $this->_container->getParameter('elastic_host');
+        $this->_elasticHost = $this->_container->getParameter('elastic_host');
         $this->_elasticPort = $this->_container->getParameter('elastic_port');
     }
 
@@ -82,7 +82,7 @@ class ElasticCommand extends ContainerAwareCommand
         curl_close($ch);
 
         $ch = curl_init();
-        $jsonString = file_get_contents('../../../ES_Config.json');
+        $jsonString = file_get_contents(__DIR__ . '/../../../ES_Config.json');
 
         curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt/ulice/');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
