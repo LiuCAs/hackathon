@@ -1,0 +1,6 @@
+main(data-ng-controller="MainController")
+    .map
+        ng-map(center="{{ actualCoords[0] }}, {{ actualCoords[1] }}" zoom="{{ mapZoom }}", scrollwheel="false")
+            marker(data-ng-repeat="(key, value) in marker", position="[{{ value.lat }}, {{ value.lng }}]", icon="{{ icon }}", on-click="showDescription(key, value)")
+    .overlay(data-ng-if="!hideFilters")
+    include _rightBar

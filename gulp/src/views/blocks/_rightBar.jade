@@ -1,0 +1,11 @@
+aside.disabled(data-ng-class="{'disabled': rightBar !== true}")
+    .right-bar
+        .element(data-ng-repeat="(key, value)  in markerDetail", data-ng-class="{'single': markerDetail.length === 1}", data-ng-click="showDescriptionFromList(value, key)")
+            h2(data-ng-bind="value.date + ' - ' + value.street")
+            .desc(data-ng-bind="value.subject")
+            p(data-ng-if="value.attachments") Szczegóły <a href="{{ value.attachments.urls[0] }}" target="_blank">Pobierz</a>
+            button(data-ng-if="value.details", data-ng-click="showModal(value.details)") Więcej
+    .show-filters.back(data-ng-if="showBackButton", data-ng-click="showAllMarker()")
+        button.btn.btn-primary Wróć do pełnej listy
+    .show-filters(data-ng-if="hideFilters", data-ng-click="showFilters()")
+        button.btn.btn-primary Pokaż filtry

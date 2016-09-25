@@ -1,0 +1,58 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "authors": [
+    "PK"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap-sass": "~3.3.5",
+    "angular-bootstrap": "~0.14.2",
+    "malihu-custom-scrollbar-plugin": "~3.0.9",
+    "animate.css": "~3.4.0",
+    "angular": "~1.4.3",
+    "angular-route": "~1.4.3",
+    "angular-animate": "~1.4.3",
+    "jquery-cookie": "~1.4.1",
+    "ngmap": "~1.17.6"
+  },
+  "overrides": {
+    "jquery": {
+      "main": "./dist/jquery.min.js"
+    },
+    "jquery-cookie": {
+      "main": "./jquery.cookie.js"
+    },
+    "bootstrap-sass": {
+      "main": "./assets/javascripts/bootstrap.min.js"
+    },
+    "angular": {
+      "main": "./angular.min.js"
+    },
+    "angular-route": {
+      "main": "./angular-route.min.js"
+    },
+    "angular-bootstrap": {
+      "main": "./ui-bootstrap-tpls.js"
+    },
+    "angular-animate": {
+      "main": "./angular-animate.js"
+    },
+    "malihu-custom-scrollbar-plugin": {
+      "main": "./jquery.mCustomScrollbar.concat.min.js"
+    },
+    "ngmap": {
+      "main": "./build/scripts/ng-map.min.js"
+    },
+    "animate.css": {
+      "ignore": "**/*"
+    }
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ]
+}

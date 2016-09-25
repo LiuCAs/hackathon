@@ -1,0 +1,14 @@
+.mod
+    .close(data-ng-click="close()") X
+    h1 Oferta Pracy - z dnia {{ response.data_publikacji }}
+    p(data-ng-if="response.nazwa_organizacja") Nazwa organizacji: {{ response.nazwa_organizacja }}
+    p(data-ng-if="response.numer_referencyjny") Numer referencyjny: {{ response.numer_referencyjny }}
+    p(data-ng-if="response.stanowisko") Stanowisko: <span data-ng-bind-html="response.stanowisko | unsafe"></span>
+    p(data-ng-if="response.termin_skladania_ofert") Termin składania wniosków: <span data-ng-bind-html="response.termin_skladania_ofert | unsafe"></span>
+    p(data-ng-if="response.dokumenty") Dokumenty: <span data-ng-bind-html="response.dokumenty | unsafe"></span>
+    p(data-ng-if="response.wymagania_dodatkowe") Wymagane dokumenty: <span data-ng-bind-html="response.wymagania_dodatkowe | unsafe"></span>
+    p(data-ng-if="response.wymagania_obowiazkowe") Wymagania: <span data-ng-bind-html="response.wymagania_obowiazkowe | unsafe"></span>
+    p(data-ng-if="response.zakres_podstawowych_czynnosci") Zakres obowiązków: <span data-ng-bind-html="response.zakres_podstawowych_czynnosci | unsafe"></span>
+    p(data-ng-if="response.inne_dokumenty") Informacje dodatkowe: <span data-ng-bind-html="response.inne_dokumenty | unsafe"></span>
+    p.pull-right Dane udostępnione dzięki serwisowi <a href="http://danepubliczne.pl" target="_balnk">danepubliczne.pl</a>
+

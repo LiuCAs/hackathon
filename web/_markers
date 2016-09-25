@@ -1,0 +1,36 @@
+[
+    {
+        "positions": [52.3764, 16.9452],
+        "icon": {
+            "path": "CIRCLE",
+            "scale": 6,
+            "strokeColor": "#F00",
+            "fillColor": "#F00"
+        },
+        "description": "Przypadkowy opis 1",
+        "name": "Nazwa 1",
+        "link": false
+    }, {
+        "positions": [52.3564, 16.9852],
+        "icon": {
+            "path":"CIRCLE",
+            "scale": 6,
+            "strokeColor": "#000",
+            "fillColor": "#000"
+        },
+        "description": "Przypadkowy opis 2",
+        "name": "Nazwa 2",
+        "link": true
+    }, {
+        "positions": [52.3064, 16.9552],
+        "icon": {
+            "path":"CIRCLE",
+            "scale": 6,
+            "strokeColor": "#FFF",
+            "fillColor": "#FFF"
+        },
+        "description": "Przypadkowy opis 3",
+        "name": "Nazwa 3",
+        "link": false
+    }
+]

@@ -1,0 +1,19 @@
+doctype html
+html(lang="en", data-ng-app="hackathonApp")
+    head
+        title Hackathon 2k16
+        meta(name="charset", content="utf-8")
+        meta(name="description", content="Hackathon, daepubliczne")
+        meta(name="keywords", content="Hackathon, daepubliczne")
+        meta(name="author", content="KinguinTeam")
+        meta(name="robots", content="index, follow")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="icon", href="images/icon.png" )
+        link(rel="stylesheet", href="/dist/stylesheets/style.css")
+        link(rel="stylesheet", href="/dist/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css")
+        include main/_scripts
+    body(data-ng-controller="GlobalController")
+
+        include main/_header
+
+        include main

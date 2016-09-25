@@ -1,0 +1,21 @@
+header(data-ng-controller="HeaderController", data-ng-class="{'disabled': hideFilters === true }")
+    form.search
+        alert.alert-danger(data-ng-if="showInfo")
+            a(href="#", class="close", data-dismiss="alert", aria-label="close") &times;
+            | Wybierz miasto.
+        .containers
+            .col-sm-6
+                .list
+                    label
+                        input(type="checkbox", name="1", value="oferty pracy", ng-model="search.param1")
+                        | oferty pracy
+                .list
+                    label
+                        input(type="checkbox", name="2", ng-model="search.param2")
+                        | interpelacje
+            .col-sm-6
+                .select.cities
+                    select.col-xs-6(data-ng-model="search.city")
+                        option(data-ng-bind="'Wybierz miasto'")
+                        option(data-ng-repeat="city in cities", data-ng-bind="city.city_name", value="{{ city }}")
+                    input.btn.btn-primary.col-xs-6.pull-right(type="submit", data-ng-click="showResult()")

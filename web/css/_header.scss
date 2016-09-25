@@ -1,0 +1,80 @@
+header {
+  background: #fff;
+  width: 100%; height: auto;
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 9;
+  box-shadow: 0 2px 7px #000; opacity: .95;
+  -webkit-transition: top 0.7s;
+  -moz-transition: top 0.7s;
+  -ms-transition: top 0.7s;
+  -o-transition: top 0.7s;
+  transition: top 0.7s;
+  border-bottom: 2px solid #007082;
+  @media (max-width: 768px) {
+    position: relative;
+  }
+  &.disabled {
+    top: -500px;
+    @media (max-width: 768px) {
+      top: 0;
+    }
+  }
+  .search {
+    padding: 45px 0;
+    display: inline-block; width: 100%;
+  }
+  input, .btn {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: none;
+    height: 40px;
+    margin: 0 !important;
+    font-size: 18px; line-height: 22px;
+  }
+  .btn {
+    padding: 5px 25px !important;
+    text-transform: uppercase; height: 50px;
+  }
+  .list {
+    input {
+      height: auto; margin-right: 5px !important;
+    }
+    label {
+      text-transform: uppercase;
+    }
+  }
+  .select {
+    select {
+      height: 50px;
+      padding: 2px 10px; border-color: #007082;
+    }
+  }
+}
+.show-filters {
+  position: absolute;
+  bottom: 0; right: 0;
+  z-index: 9; width: 100%;
+  @media (max-width: 768px) {
+    display: none;
+  }
+  &.back {
+    bottom: 42px;
+    @media (max-width: 768px) {
+      display: block; bottom: 0;
+    }
+  }
+  .btn {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: none;
+    height: 40px;
+    margin: 0 !important;
+    font-size: 18px; line-height: 22px;
+    padding: 5px 25px !important;
+    width: 100%; text-transform: uppercase;
+  }
+
+}

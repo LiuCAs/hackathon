@@ -1,0 +1,33 @@
+[
+    {
+        "id": "1",
+        "subject": "referent ds. kadr - Zespół Szkół z Oddziałami Integracyjnymi Nr 3 (Szkoła Podstawowa Nr 75 im. Powstańców Wielkopolskich, Gimnazjum Nr 2 im. Powstańców Wielkopolskich)",
+        "date": "2016-09-05",
+        "lat": "52.406374",
+        "lng": "16.9251681",
+        "city": "3064",
+        "category": "2",
+        "internal_id": "21198",
+        "details": {"oferta":{"link":"http:\/\/bip.poznan.pl\/bip\/praca.html?co=print&of_id=21282&api=json","id":21282,"nazwa_organizacja":"Miejska Pracownia Urbanistyczna","stanowisko":"ds. projektowania urbanistycznego nr 5","numer_referencyjny":"MPU-OR\/1000-7\/16","zakres_podstawowych_czynnosci":"<p>Udzia\u0142 w sporz\u0105dzaniu:<\/p><ul><li><span>projekt\u00f3w miejscowych plan\u00f3w zagospodarowania przestrzennego,<\/span><\/li><\/ul><ul><li><span>analiz urbanistycznych,<\/span><\/li><\/ul><ul><li><span>wizualizacji przestrzennych.<\/span><\/li><\/ul>","data_publikacji":"2016-09-20","termin_skladania_ofert":"2016-10-14","wymagania_obowiazkowe":"<ul><li><span>wykszta\u0142cenie wy\u017csze na kierunku Architektura b\u0105d\u017a Gospodarka Przestrzenna,<\/span><\/li><\/ul><ul><li><span>wysoki poziom umiej\u0119tno\u015bci obs\u0142ugi komputera, w tym program\u00f3w w pakiecie Office oraz ArcGis, Prezi, SketchUp,<\/span><\/li><\/ul><ul><li><span>komunikatywno\u015b\u0107,<\/span><\/li><\/ul><ul><li><span>motywacja do pracy w planowaniu przestrzennym,<\/span><\/li><\/ul><ul><li><span>umiej\u0119tno\u015b\u0107 pracy w zespole,<\/span><\/li><\/ul><ul><li><span>znajomo\u015b\u0107 obszaru \u015ar\u00f3dmi\u015bcia Poznania.<\/span><\/li><\/ul>","wymagania_dodatkowe":"<ul><li><span>praktyka w zespole projektowym,<\/span><\/li><\/ul><ul><li><span>udzia\u0142 w konkursach w zakresie planowania przestrzennego,<\/span><\/li><\/ul><ul><li><span>sporzadzanie analiz przestrzennych typu Gis oraz wizualizacji,<\/span><\/li><\/ul><ul><li><span>znajomo\u015b\u0107 ustawy o planowaniu i zagospodarowaniu przestrzennym,<\/span><\/li><\/ul><ul><li><span>znajomo\u015b\u0107 j\u0119zyka angielskiego.<\/span><\/li><\/ul>","dokumenty":"<ul><li><span>\u017cyciorys,<\/span><\/li><li><span>list motywacyjny,<\/span><\/li><li><span>dokumenty potwierdzaj\u0105ce wykszta\u0142cenie (kserokopie)<\/span><\/li><li><span>o\u015bwiadczenie o posiadaniu pe\u0142ni praw publicznych i niekaralno\u015bci za przest\u0119pstwo pope\u0142nione umy\u015blnie<\/span><\/li><\/ul>","inne_dokumenty":"<p><strong>Informacja o warunkach pracy na stanowisku:<\/strong><\/p><ul><li><span>praca wymaga du\u017cej mobilno\u015bci, gotowo\u015bci do wyjazd\u00f3w w teren oraz sprawnego, bezpo\u015bredniego&#160; komunikowania si\u0119 z innymi pracownikami i instytucjami<\/span><\/li><\/ul><p><strong>Informacja dotycz\u0105ca wska\u017anika zatrudnienia os\u00f3b niepe\u0142nosprawnych (w rozumieniu przepis\u00f3w ustawy z dnia 21 listopada 2008r. o<\/strong> <strong>pracownikach samorz\u0105dowych):<\/strong><\/p><ul><li><span>w miesi\u0105cu poprzedzaj\u0105cym dat\u0119 upublicznienia og\u0142oszenia wska\u017anik zatrudnienia os\u00f3b niepe\u0142nosprawnych w jednostce, w rozumieniu przepis\u00f3w o rehabilitacji zawodowej i spo\u0142ecznej oraz zatrudnianiu os\u00f3b niepe\u0142nosprawnych nie wynosi\u0142 co najmniej 6%.<\/span><\/li><\/ul>"}}
+    },
+    {
+        "id": "27",
+        "subject": "Interpelacja ws. opracowania koncepcji budowy ronda na skrzyżowaniu ulic Kurlandzkiej-Wiatracznej",
+        "date": "2016-09-22",
+        "attachments": { "urls": ["http:\/\/bip.poznan.pl\/bip\/interpelacje.html?co=show&noteid=NT0001186A&id=4328372&api=json"] },
+        "street": "Kurlandzkiej",
+        "lat": "52.3817546",
+        "lng": "16.977035",
+        "city": "3064",
+        "category": "1",
+        "internal_id": "NT0001186A"
+    },
+    {
+        "subject": "test",
+        "date": "2016-09-22",
+        "street": "Kurlandzkiej",
+        "lat": "52.3817546",
+        "lng": "16.977035",
+        "city": "3064"
+    }
+]

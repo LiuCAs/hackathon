@@ -1,0 +1,20 @@
+.modal-dialog {
+  display: block !important;
+  background: #FFF;
+  padding: 20px;
+  .modal-content {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    .close {
+      position: absolute; right: 0;
+      top: 0; color: #000; font-weight: 900;
+    }
+  }
+}
+.alert-danger {
+  position: absolute;
+  top: 30%; left: 0;
+  width: 100%;
+  z-index: 11;
+}

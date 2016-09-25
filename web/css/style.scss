@@ -1,0 +1,124 @@
+@import '../dist/bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+@import 'header';
+@import 'modal';
+
+html {
+    height: 100%;
+}
+* { outline: medium none !important; }
+
+body {
+    background: #e2e2e2;
+    color: #007082;
+    width: 100%; height: 100%;
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0 0 10px 0; padding: 0;
+        font-weight: 600; font-size: 18px;
+    }
+    p {
+        &.warning {
+            position: absolute;
+            top: 10px;
+            left: 95px;
+            color: #ff0000;
+        }
+    }
+    .btn {
+        background: #007082;
+    }
+    main {
+        width: 100%; height: 100%;
+        .map, ng-map {
+            width: 100%; height: 100%;
+            display: block;
+        }
+        .overlay {
+            background: #000;
+            width: 100%; height: 100%;
+            position: absolute; z-index: 8; top: 0;
+            opacity: .7;
+            @media (max-width: 768px) {
+                display: none;
+            }
+        }
+        aside {
+            height: 100%; width: 300px;
+            position: absolute;
+            left: 0; top: 0;
+            background: #FFF;
+            padding: 0;
+            -webkit-transition: left .7s;
+            -moz-transition: left .7s;
+            -ms-transition: left .7s;
+            -o-transition: left .7s;
+            transition: left .7s;
+            box-shadow: 2px 0 5px #000;
+            border-right: 2px solid #007082;
+            @media (max-width: 768px) {
+                height: 300px; width: 100%;
+                bottom: -0; top: auto; left: 0;
+                position: fixed;
+            }
+            &.disabled {
+                left: -300px;
+                @media (max-width: 768px) {
+                    bottom: -300px;left: 0;
+                }
+            }
+            .right-bar {
+                height: calc(100% - 40px);
+            }
+            .element {
+                padding: 15px 10px;
+                position: relative;
+                cursor: pointer;
+                &:before {
+                    position: absolute;
+                    top: 0;
+                    width: 300px; height: 1px;
+                    background: #007082;
+                    content: '';
+                    margin-left: -10px;
+                }
+                &:last-of-type {
+                    &:after {
+                        position: absolute; bottom: 0;
+                        width: 300px; height: 1px;
+                        background: #007082;
+                        content: '';
+                        margin-left: -10px;
+                    }
+                }
+                &:hover {
+                    opacity: .7;
+                    background: #007082;
+                    color: #FFF;
+                }
+                &.single {
+                    cursor: default;
+                    background: #007082;
+                    color: #FFF;
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+                button {
+                    border: none;
+                    background: #eea236;
+                    margin-top: 5px;
+                    padding: 5px 10px;
+                }
+                a {
+                    color: #eea236;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger:hover .mCSB_dragger_bar, .mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar,.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar {
+        background-color: #007082;
+    }
+    .mCSB_inside>.mCSB_container {
+        margin-right: 15px;
+    }
+}
