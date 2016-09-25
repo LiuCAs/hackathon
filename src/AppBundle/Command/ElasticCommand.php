@@ -42,14 +42,22 @@ class ElasticCommand extends ContainerAwareCommand
     {
         $places = array();
         $streets = array();
+        $communities = array();
 
         $repoDistrict = $this->_em->getRepository('FSiTerytDbBundle:District');
-        $district = $repoDistrict->find(3064);//Poznań
-        $communities = $district->getCommunities();
+        $districtCollection = $repoDistrict->findBy(array(
+            'code' => array(3064, 663)
+        ));
 
-        foreach ($communities as $community) {
-            /** @var Community $community */
-            $places[] = $community->getPlaces();
+        foreach ($districtCollection as $district) {
+            $communities[] = $district->getCommunities();
+        }
+
+        foreach ($communities as $communityCollection) {
+            foreach ($communityCollection as $community) {
+                /** @var Community $community */
+                $places[] = $community->getPlaces();
+            }
         }
 
         foreach ($places as $placesCollection) {
