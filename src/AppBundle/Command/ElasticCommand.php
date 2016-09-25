@@ -69,7 +69,7 @@ class ElasticCommand extends ContainerAwareCommand
         $timeout = 0;
         $jsonString = sprintf('{"code":"%s","name":"%s"}', $district->getCode(), $street->getName());
 
-        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1/ulice/wpisy/');
+        curl_setopt($ch, CURLOPT_URL, 'http://172.17.0.2/teryt/ulice/');
         curl_setopt($ch, CURLOPT_PORT, 9200);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
