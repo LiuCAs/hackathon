@@ -7,37 +7,34 @@ class Location
     {
         $query = array(
             'from' => 0,
-            'size' => 10,
-            'min_score' => 0.005,
-            'query' => array(
-                'bool' => array(
-                    'must' => array(
-                        array(
-                            'match' => array(
-                                'code' => array(
-                                    'query' => (string) $code,
-                                    'operator' => 'and',
-                                    'boost' => 0.1
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+            'size' => 5,
+            'min_score' => 0.005
         );
-        foreach ($text as $element) {
-            $query['query']['bool']['should'][]['match']['name'] = array(
-                'query' => (string) $element,
-                'operator' => 'or'
-            );
-        }
 
-        return $this->request('/teryt/ulice/_search', 'POST', $query);
+        $query['query']['bool']['must'][]['match']['code'] = array(
+            'query' => (string) $code,
+            'operator' => 'and',
+            'boost' => 0.01
+        );
+
+        $query['query']['bool']['should'][]['match']['name'] = array(
+            'query' => (string) $text
+        );
+
+        $var = $this->request('/teryt/ulice/_search', 'POST', $query);
+
+        $var = (json_decode($var));
+
+        if(!empty($var->hits->hits)) {
+            return $var->hits->hits[0]->_source->name;
+        } else {
+            return null;
+        }
     }
 
     private function request($path, $method = 'GET', array $content = array())
     {
-        $url = 'https://127.0.0.1' . $path;
+        $url = 'http://172.17.0.2' . $path;
 
         $jsonData = json_encode($content);
 

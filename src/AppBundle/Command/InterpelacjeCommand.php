@@ -146,8 +146,10 @@ class InterpelacjeCommand extends ContainerAwareCommand
 
     private function getStreet($array)
     {
-        $return = !empty($array[0]) ? $array[0] : [];
-        return $return;
+        $location = new \AppBundle\Utils\Location();
+        $response = $location->gdzieJestSeba(self::CITY_CODE, implode(" ", $array));
+
+        return $response;
     }
 
     private function getLatLong($address)
