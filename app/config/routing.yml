@@ -9,3 +9,7 @@ cities:
 categories:
     type:     rest
     resource: AppBundle\Controller\CategoriesController
+
+config:
+    type:     rest
+    resource: AppBundle\Controller\ConfigController
