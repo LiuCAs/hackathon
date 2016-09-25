@@ -87,7 +87,7 @@ class Point
     /**
      * @var string
      *
-     * @ORM\Column(name="details", type="string", length=1000, nullable=true)
+     * @ORM\Column(name="details", type="text", nullable=true)
      */
     private $details;
 

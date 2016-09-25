@@ -73,7 +73,7 @@ class PracaCommand extends ContainerAwareCommand
                                 $PointModel->setSubject($oferta->stanowisko . " - " . $oferta->nazwa_organizacja);
                                 $PointModel->setDate($oferta->data_publikacji);
                                 $PointModel->setInternalId($oferta->id);
-                                $PointModel->setDetails($oferta->link);
+                                $PointModel->setDetails($this->parseDetails($oferta->link));
                                 $str = trim(preg_replace('/\s*\([^)]*\)/', '', $oferta->nazwa_organizacja));
                                 $streetQuery = $this->prepareQuery($str);
                                 $geo = $this->getLatLong($streetQuery);
@@ -114,5 +114,10 @@ class PracaCommand extends ContainerAwareCommand
         $url = $baseAddress . $addressString;
         $json = json_decode(file_get_contents($url));
         return $json->results[0]->geometry->location;
+    }
+
+    private function parseDetails($details) {
+        $content = file_get_contents($details);
+        return $content;
     }
 }
