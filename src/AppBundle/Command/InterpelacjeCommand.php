@@ -4,6 +4,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\Point;
 use stdClass;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +15,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
 {
     const ITEM_PER_PAGE = 50;
 
-    const CITY_CODE = 3064;
+    const CITY_CODE = "3064";
 
     const GOOGLE_API_KEY = "AIzaSyAVmwCNz1smHBx6C1I1h-lXzs6U2HdHQUo";
 
@@ -76,32 +77,37 @@ class InterpelacjeCommand extends ContainerAwareCommand
                     foreach ($singleItem as $interpelacje) {
                         foreach ($interpelacje as $interpelacja) {
                             $PointModel = new Point();
-                            $PointModel->setCategory($this->categoryId);
-                            $PointModel->setCity(self::CITY_CODE);
-                            $PointModel->setSubject($interpelacja->temat);
-                            $PointModel->setDate($interpelacja->data_wplywu);
-                            $PointModel->setInternalId($interpelacja->noteid);
-                            $attachmentArray = [];
-                            foreach ($interpelacja->zalaczniki->items as $attachment) {
-                                $attachment = !empty($attachment->zalacznik->link) ? $attachment->zalacznik->link : null;
-                                if (!is_null($attachment)) {
-                                    $attachmentArray['urls'][] = $attachment;
+                            try {
+                                $PointModel->setCategory($this->categoryId);
+                                $PointModel->setCity(self::CITY_CODE);
+                                $PointModel->setSubject($interpelacja->temat);
+                                $PointModel->setDate($interpelacja->data_wplywu);
+                                $PointModel->setInternalId($interpelacja->noteid);
+                                $attachmentArray = [];
+                                foreach ($interpelacja->zalaczniki->items as $attachment) {
+                                    $attachment = !empty($attachment->zalacznik->link) ? $attachment->zalacznik->link : null;
+                                    if (!is_null($attachment)) {
+                                        $attachmentArray['urls'][] = $attachment;
+                                    }
                                 }
+                                if (!empty($attachmentArray)) {
+                                    $PointModel->setAttachments(json_encode($attachmentArray));
+                                }
+                                $streetQuery = $this->prepareQuery($interpelacja->temat);
+                                $street = $this->getStreet($streetQuery);
+                                if (!empty($street)) {
+                                    $PointModel->setStreet($street);
+                                    $geo = $this->getLatLong([$street]);
+                                    $PointModel->setLat($geo->lat);
+                                    $PointModel->setLng($geo->lng);
+                                }
+                                $em = $this->getContainer()->get('doctrine')->getManager('default');
+                                $em->persist($PointModel);
+                                $em->flush();
+                            } catch (Exception $e) {
+                                return 0;
                             }
-                            if (!empty($attachmentArray)) {
-                                $PointModel->setAttachments(json_encode($attachmentArray));
-                            }
-                            $streetQuery = $this->prepareQuery($interpelacja->temat);
-                            $street = $this->getStreet($streetQuery);
-                            if (!empty($street)) {
-                                $PointModel->setStreet($street);
-                                $geo = $this->getLatLong([$street]);
-                                $PointModel->setLat($geo->lat);
-                                $PointModel->setLng($geo->lng);
-                            }
-                            $em = $this->getContainer()->get('doctrine')->getManager('default');
-                            $em->persist($PointModel);
-                            $em->flush();
+
                         }
                     }
                 }

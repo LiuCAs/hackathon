@@ -3,6 +3,7 @@
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Point;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +13,7 @@ class PracaCommand extends ContainerAwareCommand
 {
     const ITEM_PER_PAGE = 20;
 
-    const CITY_CODE = 3064;
+    const CITY_CODE = "3064";
 
     const GOOGLE_API_KEY = "AIzaSyAVmwCNz1smHBx6C1I1h-lXzs6U2HdHQUo";
 
@@ -66,21 +67,25 @@ class PracaCommand extends ContainerAwareCommand
                     foreach ($singleItem as $offer) {
                         foreach ($offer as $oferta) {
                             $PointModel = new Point();
-                            $PointModel->setCategory($this->categoryId);
-                            $PointModel->setCity(self::CITY_CODE);
-                            $PointModel->setSubject($oferta->stanowisko . " - " . $oferta->nazwa_organizacja);
-                            $PointModel->setDate($oferta->data_publikacji);
-                            $PointModel->setInternalId($oferta->id);
-                            $PointModel->setDetails($oferta->link);
-                            $str = trim(preg_replace('/\s*\([^)]*\)/', '', $oferta->nazwa_organizacja));
-                            $streetQuery = $this->prepareQuery($str);
-                            $geo = $this->getLatLong($streetQuery);
-                            $PointModel->setLat($geo->lat);
-                            $PointModel->setLng($geo->lng);
+                            try {
+                                $PointModel->setCategory($this->categoryId);
+                                $PointModel->setCity(self::CITY_CODE);
+                                $PointModel->setSubject($oferta->stanowisko . " - " . $oferta->nazwa_organizacja);
+                                $PointModel->setDate($oferta->data_publikacji);
+                                $PointModel->setInternalId($oferta->id);
+                                $PointModel->setDetails($oferta->link);
+                                $str = trim(preg_replace('/\s*\([^)]*\)/', '', $oferta->nazwa_organizacja));
+                                $streetQuery = $this->prepareQuery($str);
+                                $geo = $this->getLatLong($streetQuery);
+                                $PointModel->setLat($geo->lat);
+                                $PointModel->setLng($geo->lng);
 
-                            $em = $this->getContainer()->get('doctrine')->getManager('default');
-                            $em->persist($PointModel);
-                            $em->flush();
+                                $em = $this->getContainer()->get('doctrine')->getManager('default');
+                                $em->persist($PointModel);
+                                $em->flush();
+                            } catch (Exception $e) {
+                                return 0;
+                            }
                         }
                     }
                 }
