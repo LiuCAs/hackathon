@@ -4,7 +4,7 @@
       "tokenizer": {
         "edgengram_tokenizer": {
           "type": "edgeNGram",
-          "min_gram": 1,
+          "min_gram": 4,
           "max_gram": 50,
           "token_chars": [
             "letter",
@@ -15,7 +15,7 @@
       "filter": {
         "desc_edgeNGram": {
           "type": "edgeNGram",
-          "min_gram": 1,
+          "min_gram": 4,
           "max_gram": 50
         }
       },
