@@ -10,13 +10,15 @@ class MarkersController extends FOSRestController
 {
     public function getMarkersAction(Request $request)
     {
-        $content = $request->getContent();
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('Access-Control-Allow-Origin', '*');
 
-        if (!empty($content)) {
-            $params = json_decode($content, true); // 2nd param to get as array
-            var_dump($params);die;
-        }
+        $em = $this->getDoctrine();
+        $entities = $em->getRepository('AppBundle:Point')->findBy(['city' => '3064', 'category' => 1]);
 
-        return $this->view([], Response::HTTP_OK);
+        return $this->view($entities, Response::HTTP_OK, [
+            'Access-Control-Allow-Origin' => '*'
+        ]);
     }
 }
