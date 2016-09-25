@@ -15,19 +15,25 @@ class ConfigController extends FOSRestController
                 'city' => '3064',
                 'cityName' => 'Poznan',
                 'categoryId' => '1',
-                'categoryName' => 'Interpelacje'
+                'categoryName' => 'Interpelacje',
+                'lat' => '52.406374',
+                'long' => '16.9251681'
             ],
             [
                 'city' => '3064',
                 'cityName' => 'Poznan',
                 'categoryId' => '2',
-                'categoryName' => 'Oferty Pracy'
+                'categoryName' => 'Oferty Pracy',
+                'lat' => '52.406374',
+                'long' => '16.9251681'
             ],
             [
                 'city' => '0663',
                 'cityName' => 'Lublin',
                 'categoryId' => '3',
-                'categoryName' => 'Interpelacje'
+                'categoryName' => 'Interpelacje',
+                'lat' => '51.2464536',
+                'long' => '22.5684463'
             ],
         ];
 
