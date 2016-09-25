@@ -1,4 +1,4 @@
-Copyright 2016
+Copyright 2016 Jędrzej Witaszak Amadeusz Kryze Łukasz Bobiński Przemysław Kantorski
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file
 except in compliance with the License. You may obtain a copy of the License at
@@ -12,7 +12,7 @@ ing permissions and limitatjons under the License.
 
 
 
-Copyright 2016
+Copyright 2016 Jędrzej Witaszak Amadeusz Kryze Łukasz Bobiński Przemysław Kantorski
 
 Licensed under the CC BY-SA 3.0 (the "License"); you may not use this file except in
 compliance with the License. You may obtain a copy of the License at
