@@ -55,12 +55,44 @@ class ElasticCommand extends ContainerAwareCommand
             }
         }
 
+        $this->initElastic();
+        
         foreach ($streets as $streetCollection) {
             foreach ($streetCollection as $street) {
                 /** @var Street $street */
                 $this->addStreetToIndex($district, $street);
             }
         }
+    }
+
+    public function initElastic()
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1/ulice');
+        curl_setopt($ch, CURLOPT_PORT, 9200);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        curl_exec($ch);
+        curl_close($ch);
+
+        $ch = curl_init();
+        $jsonString = file_get_contents('../../../ES_Config.json');
+
+        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1/ulice/wpisy/');
+        curl_setopt($ch, CURLOPT_PORT, 9200);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($jsonString)
+        ));
+
+        curl_exec($ch);
+        curl_close($ch);
+
     }
 
     public function addStreetToIndex(District $district, Street $street)
