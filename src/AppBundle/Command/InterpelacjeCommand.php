@@ -72,7 +72,7 @@ class InterpelacjeCommand extends Command
                             $returnArray[$i]['internal_id'] = $interpelacja->noteid;
                             $attachmentArray = [];
                             foreach ($interpelacja->zalaczniki->items as $attachment) {
-                                $attachment = $attachment->zalacznik->link ?? null;
+                                $attachment = !empty($attachment->zalacznik->link) ? $attachment->zalacznik->link : null;
                                 if (!is_null($attachment)) {
                                     $attachmentArray['urls'][] = $attachment;
                                     $attachmentArray['urls'][] = $attachment;
@@ -135,7 +135,7 @@ class InterpelacjeCommand extends Command
 
     private function getStreet($array)
     {
-        $return = $array[0] ?? [];
+        $return = !empty($array[0]) ? $array[0] : [];
         return $return;
     }
 
