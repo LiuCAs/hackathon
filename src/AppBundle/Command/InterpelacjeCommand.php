@@ -3,7 +3,7 @@
 namespace AppBundle\Command;
 
 use AppBundle\Entity\Point;
-
+use stdClass;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -152,6 +152,17 @@ class InterpelacjeCommand extends ContainerAwareCommand
 
     private function getLatLong($address)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager('default');
+
+        $entity = $em->getRepository('AppBundle:Point')->findOneBy(['street' => $address[0], 'city' => self::CITY_CODE]);
+
+        if ($entity) {
+            $stdClass = new stdClass();
+            $stdClass->lat = $entity->getLat();
+            $stdClass->lng = $entity->getLng();
+            return $stdClass;
+        }
+
         $baseAddress = "https://maps.googleapis.com/maps/api/geocode/json?address=";
         $addressString = implode("+", $address);
         $addressString .= ",+Poznań";

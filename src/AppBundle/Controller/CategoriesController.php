@@ -9,9 +9,19 @@ class CategoriesController extends FOSRestController
 {
     public function getCategoriesAction()
     {
-        $data = [
-            "praca", "zarządzenia prezydenta", "zarządzenia rady miasta", "przetargi", "pozwolenia na budowe"
-        ];
-        return $this->view($data, Response::HTTP_OK);
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:Point')->findAll();
+
+        return $this->view($entities, Response::HTTP_OK);
+    }
+
+    public function getCategoryAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entities = $em->getRepository('AppBundle:Point')->findBy(['category' => $id]);
+
+        return $this->view($entities, Response::HTTP_OK);
     }
 }
