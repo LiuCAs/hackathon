@@ -24,7 +24,7 @@ class Point
     /**
      * @var string
      *
-     * @ORM\Column(name="subject", type="string")
+     * @ORM\Column(name="subject", type="text")
      */
     private $subject;
 

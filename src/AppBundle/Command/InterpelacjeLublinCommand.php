@@ -28,6 +28,9 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
     ];
 
     private $categoryId;
+    private $_container;
+    private $_doctrine;
+    private $_em;
 
     protected function configure()
     {
@@ -35,6 +38,13 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
             ->setName('app:interpelacjeLublin')
             ->addArgument('category_id', InputArgument::REQUIRED, 'ID Kategori')
             ->setDescription('Parsowanie interpelacji');
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->_container = $this->getContainer();
+        $this->_doctrine = $this->_container->get('doctrine');
+        $this->_em = $this->_doctrine->getManager();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -52,6 +62,9 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
         foreach ($jsonDecoded->items as $item) {
             $PointModel = new Point();
             try {
+                if (!isset($item->sprawa)) {
+                    continue;
+                }
                 $PointModel->setCategory($this->categoryId);
                 $PointModel->setCity(self::CITY_CODE);
                 $PointModel->setSubject($item->sprawa);
@@ -62,6 +75,7 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
                         $item->link
                     ]
                 ];
+
                 $streetQuery = $this->prepareQuery($item->sprawa);
                 $street = $this->getStreet($streetQuery);
                 $PointModel->setAttachments(json_encode($attachmentArray));
@@ -119,10 +133,10 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
 
     private function getStreet($array)
     {
-//        $location = new \AppBundle\Utils\Location(1, 1);
-//        $response = $location->gdzieJestSeba(self::CITY_CODE, implode(" ", $array));
-        return isset($array[0]) ? $array[0] : [];
-//        return $array;
+        $location = $this->_container->get('app.utils.location');
+        $response = $location->gdzieJestSeba(self::CITY_CODE, implode(" ", $array));
+
+        return $response;
     }
 
     private function getLatLong($address)

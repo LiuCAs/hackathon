@@ -30,6 +30,9 @@ class InterpelacjeCommand extends ContainerAwareCommand
     ];
 
     private $categoryId;
+    private $_container;
+    private $_doctrine;
+    private $_em;
 
     protected function configure()
     {
@@ -37,6 +40,13 @@ class InterpelacjeCommand extends ContainerAwareCommand
             ->setName('app:interpelacje')
             ->addArgument('category_id', InputArgument::REQUIRED, 'ID Kategori')
             ->setDescription('Parsowanie interpelacji');
+    }
+
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->_container = $this->getContainer();
+        $this->_doctrine = $this->_container->get('doctrine');
+        $this->_em = $this->_doctrine->getManager();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -152,7 +162,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
 
     private function getStreet($array)
     {
-        $location = new \AppBundle\Utils\Location();
+        $location = $this->_container->get('app.utils.location');
         $response = $location->gdzieJestSeba(self::CITY_CODE, implode(" ", $array));
 
         return $response;
@@ -172,7 +182,7 @@ class InterpelacjeCommand extends ContainerAwareCommand
         }
 
         $baseAddress = "https://maps.googleapis.com/maps/api/geocode/json?address=";
-        $addressString = implode("+", $address);
+        $addressString = rawurlencode(implode("+", $address));
         $addressString .= ",+Poznań";
         $addressString .= ",+Poland";
         $addressString .= "&key=" . self::GOOGLE_API_KEY;
