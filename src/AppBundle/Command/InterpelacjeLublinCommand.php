@@ -96,6 +96,7 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
                 $this->parseItem($item);
                 $parsedItems++;
             }
+            $first += self::ITEM_PER_PAGE;
         } while ($parsedItems < $jsonDecoded->count);
     }
 
