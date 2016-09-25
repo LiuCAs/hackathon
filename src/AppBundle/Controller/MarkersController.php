@@ -14,10 +14,24 @@ class MarkersController extends FOSRestController
         $response->headers->set('Content-Type', 'application/json');
         $response->headers->set('Access-Control-Allow-Origin', '*');
 
-        $em = $this->getDoctrine();
-        $entities = $em->getRepository('AppBundle:Point')->findBy(['city' => '3064', 'category' => 1]);
+        $em = $this->getDoctrine()->getManager();
 
-        return $this->view($entities, Response::HTTP_OK, [
+        $category = $em->getRepository('AppBundle:Category')->find(1);
+
+        $query = $em->createQuery(
+            'SELECT p
+               FROM AppBundle:Point p
+               WHERE p.category = :id
+                AND (p.lat IS NOT NULL AND p.lng IS NOT NULL)
+                AND (p.lat != :lat AND p.lng != :lng)'
+        )
+            ->setParameter('id', 1)
+            ->setParameter('lat', $category->getLat())
+            ->setParameter('lng', $category->getLng());
+
+        $points = $query->getResult();
+
+        return $this->view($points, Response::HTTP_OK, [
             'Access-Control-Allow-Origin' => '*'
         ]);
     }
