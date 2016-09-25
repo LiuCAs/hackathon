@@ -15,9 +15,7 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
 {
     const ITEM_PER_PAGE = 100;
 
-    const CITY_CODE = "0663";
-
-    const GOOGLE_API_KEY = "AIzaSyAVmwCNz1smHBx6C1I1h-lXzs6U2HdHQUo";
+    const CITY_CODE = 663;
 
     const DATA_ADDRESS = 'http://bip.lublin.eu/api-json/in_rm_vii/';
 
@@ -31,6 +29,7 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
     private $_container;
     private $_doctrine;
     private $_em;
+    private $_googleApiKey;
 
     protected function configure()
     {
@@ -45,6 +44,7 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
         $this->_container = $this->getContainer();
         $this->_doctrine = $this->_container->get('doctrine');
         $this->_em = $this->_doctrine->getManager();
+        $this->_googleApiKey = $this->_container->getParameter('google_api_key');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -156,7 +156,7 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
         $addressString = implode("+", $address);
         $addressString .= ",+Lublin";
         $addressString .= ",+Poland";
-        $addressString .= "&key=" . self::GOOGLE_API_KEY;
+        $addressString .= "&key=" . $this->_googleApiKey;
         $url = $baseAddress . $addressString;
         $json = json_decode(file_get_contents($url));
         return $json->results[0]->geometry->location;
