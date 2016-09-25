@@ -60,7 +60,7 @@ class ElasticCommand extends ContainerAwareCommand
         }
 
         $this->initElastic();
-
+        
         foreach ($streets as $streetCollection) {
             foreach ($streetCollection as $street) {
                 /** @var Street $street */
@@ -105,7 +105,7 @@ class ElasticCommand extends ContainerAwareCommand
         $timeout = 0;
         $jsonString = sprintf('{"code":"%s","name":"%s"}', $district->getCode(), $street->getName());
 
-        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/ulice/wpisy/');
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt/ulice/');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);

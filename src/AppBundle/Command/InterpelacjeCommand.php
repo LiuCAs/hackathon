@@ -2,11 +2,15 @@
 // src/AppBundle/Command/InterpelacjeCommand.php
 namespace AppBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use AppBundle\Entity\Point;
+use stdClass;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-class InterpelacjeCommand extends Command
+
+class InterpelacjeCommand extends ContainerAwareCommand
 {
     const ITEM_PER_PAGE = 50;
 
@@ -24,15 +28,19 @@ class InterpelacjeCommand extends Command
         'ul.', 'ulic', 'ulica', 'ulicy'
     ];
 
+    private $categoryId;
+
     protected function configure()
     {
         $this
             ->setName('app:interpelacje')
+            ->addArgument('category_id', InputArgument::REQUIRED, 'ID Kategori')
             ->setDescription('Parsowanie interpelacji');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->categoryId = $input->getArgument('category_id');
         $this->prepareParser();
     }
 
@@ -67,30 +75,33 @@ class InterpelacjeCommand extends Command
                 foreach ($ite->interpelacje->items as $singleItem) {
                     foreach ($singleItem as $interpelacje) {
                         foreach ($interpelacje as $interpelacja) {
-                            $returnArray[$i]['subject'] = $interpelacja->temat;
-                            $returnArray[$i]['date'] = $interpelacja->data_wplywu;
-                            $returnArray[$i]['internal_id'] = $interpelacja->noteid;
+                            $PointModel = new Point();
+                            $PointModel->setCategory($this->categoryId);
+                            $PointModel->setCity(self::CITY_CODE);
+                            $PointModel->setSubject($interpelacja->temat);
+                            $PointModel->setDate($interpelacja->data_wplywu);
+                            $PointModel->setInternalId($interpelacja->noteid);
                             $attachmentArray = [];
                             foreach ($interpelacja->zalaczniki->items as $attachment) {
                                 $attachment = !empty($attachment->zalacznik->link) ? $attachment->zalacznik->link : null;
                                 if (!is_null($attachment)) {
                                     $attachmentArray['urls'][] = $attachment;
-                                    $attachmentArray['urls'][] = $attachment;
                                 }
                             }
                             if (!empty($attachmentArray)) {
-                                $returnArray[$i]['attachments'] = $attachmentArray;
+                                $PointModel->setAttachments(json_encode($attachmentArray));
                             }
                             $streetQuery = $this->prepareQuery($interpelacja->temat);
                             $street = $this->getStreet($streetQuery);
                             if (!empty($street)) {
-                                $returnArray[$i]['street'] = $street;
+                                $PointModel->setStreet($street);
                                 $geo = $this->getLatLong([$street]);
-                                $returnArray[$i]['lat'] = $geo->lat;
-                                $returnArray[$i]['lng'] = $geo->lng;
-                                var_dump($returnArray);
+                                $PointModel->setLat($geo->lat);
+                                $PointModel->setLng($geo->lng);
                             }
-                            die;
+                            $em = $this->getContainer()->get('doctrine')->getManager('default');
+                            $em->persist($PointModel);
+                            $em->flush();
                         }
                     }
                 }
@@ -135,12 +146,25 @@ class InterpelacjeCommand extends Command
 
     private function getStreet($array)
     {
-        $return = !empty($array[0]) ? $array[0] : [];
-        return $return;
+        $location = new \AppBundle\Utils\Location();
+        $response = $location->gdzieJestSeba(self::CITY_CODE, implode(" ", $array));
+
+        return $response;
     }
 
     private function getLatLong($address)
     {
+        $em = $this->getContainer()->get('doctrine')->getManager('default');
+
+        $entity = $em->getRepository('AppBundle:Point')->findOneBy(['street' => $address[0], 'city' => self::CITY_CODE]);
+
+        if ($entity) {
+            $stdClass = new stdClass();
+            $stdClass->lat = $entity->getLat();
+            $stdClass->lng = $entity->getLng();
+            return $stdClass;
+        }
+
         $baseAddress = "https://maps.googleapis.com/maps/api/geocode/json?address=";
         $addressString = implode("+", $address);
         $addressString .= ",+Poznań";

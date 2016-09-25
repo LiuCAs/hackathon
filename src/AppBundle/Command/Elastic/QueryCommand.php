@@ -49,8 +49,8 @@ class QueryCommand extends ContainerAwareCommand
 
         if ($code && $name) {
             $location = $this->_container->get('app.utils.location');
-            $response = $location->gdzieJestSeba($code, array($name));
-            var_dump($response);
+            $response = $location->gdzieJestSeba($code, $name);
+            echo $response.PHP_EOL;
         }
     }
 }

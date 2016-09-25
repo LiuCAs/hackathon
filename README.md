@@ -21,22 +21,6 @@ curl -XPOST http://172.17.0.2:9200/teryt/ulice/_search?pretty -d '{
       "should": [{
         "match": {
           "name": {
-            "query": "pobicia",
-            "operator": "and"
-          }
-        }
-      },
-      {
-        "match": {
-          "name": {
-            "query": "ulicy",
-            "operator": "and"
-          }
-        }
-      },
-      {
-        "match": {
-          "name": {
             "query": "Czerwca",
             "operator": "and"
           }
