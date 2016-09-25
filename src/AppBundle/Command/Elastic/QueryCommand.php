@@ -48,7 +48,7 @@ class QueryCommand extends ContainerAwareCommand
         $name = $input->getOption('name');
 
         if ($code && $name) {
-            $location = new \AppBundle\Utils\Location();
+            $location = $this->_container->get('app.utils.location');
             $response = $location->gdzieJestSeba($code, array($name));
             var_dump($response);
         }

@@ -19,6 +19,8 @@ class ElasticCommand extends ContainerAwareCommand
      * @var \Doctrine\ORM\EntityManager
      */
     protected $_em;
+    protected $_elasticHost;
+    protected $_elasticPort;
 
     protected function configure()
     {
@@ -32,6 +34,8 @@ class ElasticCommand extends ContainerAwareCommand
         $this->_container = $this->getContainer();
         $this->_doctrine = $this->_container->get('doctrine');
         $this->_em = $this->_doctrine->getManager();
+        $this->_elasticPort = $this->_container->getParameter('elastic_host');
+        $this->_elasticPort = $this->_container->getParameter('elastic_port');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -56,7 +60,7 @@ class ElasticCommand extends ContainerAwareCommand
         }
 
         $this->initElastic();
-        
+
         foreach ($streets as $streetCollection) {
             foreach ($streetCollection as $street) {
                 /** @var Street $street */
@@ -69,8 +73,8 @@ class ElasticCommand extends ContainerAwareCommand
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1/ulice');
-        curl_setopt($ch, CURLOPT_PORT, 9200);
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/ulice');
+        curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
@@ -80,8 +84,8 @@ class ElasticCommand extends ContainerAwareCommand
         $ch = curl_init();
         $jsonString = file_get_contents('../../../ES_Config.json');
 
-        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1/ulice/wpisy/');
-        curl_setopt($ch, CURLOPT_PORT, 9200);
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/ulice/wpisy/');
+        curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -101,8 +105,8 @@ class ElasticCommand extends ContainerAwareCommand
         $timeout = 0;
         $jsonString = sprintf('{"code":"%s","name":"%s"}', $district->getCode(), $street->getName());
 
-        curl_setopt($ch, CURLOPT_URL, 'http://127.0.0.1/ulice/wpisy/');
-        curl_setopt($ch, CURLOPT_PORT, 9200);
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/ulice/wpisy/');
+        curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
