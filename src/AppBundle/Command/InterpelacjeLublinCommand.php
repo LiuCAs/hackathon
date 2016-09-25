@@ -53,48 +53,50 @@ class InterpelacjeLublinCommand extends ContainerAwareCommand
         $this->prepareParser();
     }
 
+    private function parseItem($item)
+    {
+        if (empty($item->sprawa)) {
+            return;
+        }
+
+        $pointModel = new Point();
+        $pointModel->setCategory($this->categoryId);
+        $pointModel->setCity(self::CITY_CODE);
+        $pointModel->setSubject($item->sprawa);
+        $pointModel->setDate($item->data_wp);
+        $pointModel->setInternalId($item->id);
+        $attachmentArray = [
+            'urls' => [
+                $item->link
+            ]
+        ];
+        $streetQuery = $this->prepareQuery($item->sprawa);
+        $street = $this->getStreet($streetQuery);
+        $pointModel->setAttachments(json_encode($attachmentArray));
+
+        if (!empty($street)) {
+            $pointModel->setStreet($street);
+            $geo = $this->getLatLong([$street]);
+            $pointModel->setLat($geo->lat);
+            $pointModel->setLng($geo->lng);
+        }
+        $this->_em->persist($pointModel);
+        $this->_em->flush();
+    }
+
     private function prepareParser()
     {
-        $json = file_get_contents(self::DATA_ADDRESS);
-
-        $jsonDecoded = json_decode($json);
-        $returnArray = [];
-        foreach ($jsonDecoded->items as $item) {
-            $PointModel = new Point();
-            try {
-                if (!isset($item->sprawa)) {
-                    continue;
-                }
-                $PointModel->setCategory($this->categoryId);
-                $PointModel->setCity(self::CITY_CODE);
-                $PointModel->setSubject($item->sprawa);
-                $PointModel->setDate($item->data_wp);
-                $PointModel->setInternalId($item->id);
-                $attachmentArray = [
-                    'urls' => [
-                        $item->link
-                    ]
-                ];
-
-                $streetQuery = $this->prepareQuery($item->sprawa);
-                $street = $this->getStreet($streetQuery);
-                $PointModel->setAttachments(json_encode($attachmentArray));
-
-                if (!empty($street)) {
-                    $PointModel->setStreet($street);
-                    $geo = $this->getLatLong([$street]);
-                    $PointModel->setLat($geo->lat);
-                    $PointModel->setLng($geo->lng);
-                }
-                $em = $this->getContainer()->get('doctrine')->getManager('default');
-                $em->persist($PointModel);
-                $em->flush();
-            } catch (Exception $e) {
-                return 0;
+        $first = 0;
+        $parsedItems = 0;
+        do {
+            $url = sprintf('%s?first=%s&limit=%s', self::DATA_ADDRESS, $first, self::ITEM_PER_PAGE);
+            $json = file_get_contents($url);
+            $jsonDecoded = json_decode($json);
+            foreach ($jsonDecoded->items as $item) {
+                $this->parseItem($item);
+                $parsedItems++;
             }
-
-        }
-        return $returnArray;
+        } while ($parsedItems < $jsonDecoded->count);
     }
 
     private function prepareQuery($subject)
