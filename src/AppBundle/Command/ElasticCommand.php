@@ -73,7 +73,7 @@ class ElasticCommand extends ContainerAwareCommand
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/ulice');
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -84,7 +84,7 @@ class ElasticCommand extends ContainerAwareCommand
         $ch = curl_init();
         $jsonString = file_get_contents('../../../ES_Config.json');
 
-        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/ulice/wpisy/');
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt/ulice/');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
