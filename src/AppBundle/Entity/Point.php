@@ -73,13 +73,6 @@ class Point
     /**
      * @var string
      *
-     * @ORM\Column(name="category", type="string", length=10)
-     */
-    private $category;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="internal_id", type="string", length=255)
      */
     private $internal_id;
@@ -90,6 +83,12 @@ class Point
      * @ORM\Column(name="details", type="text", nullable=true)
      */
     private $details;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="point")
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     */
+    private $category;
 
 
     /**
@@ -342,4 +341,3 @@ class Point
         return $this->details;
     }
 }
-

@@ -1,8 +1,10 @@
 <?php
-namespace AppBundle\Command;
+namespace AppBundle\Command\Parsers;
 
 use AppBundle\Entity\Point;
 use stdClass;
+use Symfony\Component\Console\Input\InputArgument;
+use AppBundle\Command\ParserAbstract;
 
 class InterpelacjeLublinCommand extends ParserAbstract
 {
@@ -14,7 +16,10 @@ class InterpelacjeLublinCommand extends ParserAbstract
 
     protected function configure()
     {
-        parent::configure("interpelacjeLublin");
+        $this
+            ->setName('app:interpelacjeLublin')
+            ->addArgument('category_id', InputArgument::REQUIRED, 'Category ID')
+            ->setDescription('Parser');
     }
 
     private function parseItem($item)

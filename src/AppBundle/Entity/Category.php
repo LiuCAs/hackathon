@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Category
@@ -56,6 +57,21 @@ class Category
      */
     private $city_name;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Api", inversedBy="category")
+     * @ORM\JoinColumn(name="api_id", referencedColumnName="id")
+     */
+    private $api;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Point", mappedBy="category")
+     */
+    private $points;
+
+    public function __construct()
+    {
+        $this->points = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -186,5 +202,86 @@ class Category
     {
         return $this->city_name;
     }
-}
 
+    /**
+     * Add api
+     *
+     * @param \AppBundle\Entity\Api $api
+     *
+     * @return Category
+     */
+    public function addApi(\AppBundle\Entity\Api $api)
+    {
+        $this->api[] = $api;
+
+        return $this;
+    }
+
+    /**
+     * Remove api
+     *
+     * @param \AppBundle\Entity\Api $api
+     */
+    public function removeApi(\AppBundle\Entity\Api $api)
+    {
+        $this->api->removeElement($api);
+    }
+
+    /**
+     * Get api
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getApi()
+    {
+        return $this->api;
+    }
+
+    /**
+     * Set api
+     *
+     * @param \AppBundle\Entity\Api $api
+     *
+     * @return Category
+     */
+    public function setApi(\AppBundle\Entity\Api $api = null)
+    {
+        $this->api = $api;
+
+        return $this;
+    }
+
+    /**
+     * Add point
+     *
+     * @param \AppBundle\Entity\Point $point
+     *
+     * @return Category
+     */
+    public function addPoint(\AppBundle\Entity\Point $point)
+    {
+        $this->points[] = $point;
+
+        return $this;
+    }
+
+    /**
+     * Remove point
+     *
+     * @param \AppBundle\Entity\Point $point
+     */
+    public function removePoint(\AppBundle\Entity\Point $point)
+    {
+        $this->points->removeElement($point);
+    }
+
+    /**
+     * Get points
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPoints()
+    {
+        return $this->points;
+    }
+}

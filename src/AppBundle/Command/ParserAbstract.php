@@ -2,7 +2,6 @@
 namespace AppBundle\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Intl\Exception\MethodNotImplementedException;
@@ -17,14 +16,6 @@ abstract class ParserAbstract extends ContainerAwareCommand
     protected $_googleApiKey;
     protected $googleBaseAddress;
 
-
-    protected function configure($code)
-    {
-        $this
-            ->setName('app:' . $code)
-            ->addArgument('category_id', InputArgument::REQUIRED, 'Category ID')
-            ->setDescription('Parser');
-    }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
     {

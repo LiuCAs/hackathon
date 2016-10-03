@@ -1,15 +1,20 @@
 <?php
 
-namespace AppBundle\Command;
+namespace AppBundle\Command\Parsers;
 
 use AppBundle\Entity\Point;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\Console\Input\InputArgument;
+use AppBundle\Command\ParserAbstract;
 
 class PracaCommand extends ParserAbstract
 {
     protected function configure()
     {
-        parent::configure("praca");
+        $this
+            ->setName('app:praca')
+            ->addArgument('category_id', InputArgument::REQUIRED, 'Category ID')
+            ->setDescription('Parser');
     }
 
     protected function prepareParser()
