@@ -126,7 +126,7 @@ class InterpelacjeCommand extends ParserAbstract
     protected function savePoint($jsonModel)
     {
         $PointModel = new Point();
-        $PointModel->setCategory($this->category->getId());
+        $PointModel->setCategory($this->category);
         $PointModel->setCity($this->category->getCity());
         $PointModel->setSubject($jsonModel->temat);
         $PointModel->setDate($jsonModel->data_wplywu);

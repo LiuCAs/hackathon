@@ -29,7 +29,7 @@ class InterpelacjeLublinCommand extends ParserAbstract
         }
 
         $pointModel = new Point();
-        $pointModel->setCategory($this->category->getId());
+        $pointModel->setCategory($this->category);
         $pointModel->setCity($this->category->getCity());
         $pointModel->setSubject($item->sprawa);
         $pointModel->setDate($item->data_wp);

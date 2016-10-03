@@ -71,15 +71,15 @@ class PracaCommand extends ParserAbstract
     private function parseDetails($details)
     {
         $content = json_decode(file_get_contents($details));
-        $bipKey = "bip.poznan.pl";
-        return json_encode($content->{$bipKey}->data[0]->oferty_pracy->items[0]);
+        $mainKey = "bip.poznan.pl";
+        return json_encode($content->{$mainKey}->data[0]->oferty_pracy->items[0]);
     }
 
     public function savePoint($jsonModel)
     {
         $PointModel = new Point();
         try {
-            $PointModel->setCategory($this->category->getId());
+            $PointModel->setCategory($this->category);
             $PointModel->setCity($this->category->getCity());
             $PointModel->setSubject($jsonModel->stanowisko . " - " . $jsonModel->nazwa_organizacja);
             $PointModel->setDate($jsonModel->data_publikacji);
