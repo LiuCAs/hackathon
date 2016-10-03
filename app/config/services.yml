@@ -10,3 +10,18 @@ services:
     app.utils.location:
       class: AppBundle\Utils\Location
       arguments: ['%elastic_host%', '%elastic_port%']
+    admin.category:
+            class: AppBundle\Admin\CategoryAdmin
+            arguments: [~, AppBundle\Entity\Category, ~]
+            tags:
+                - { name: sonata.admin, manager_type: orm, label: Category }
+    admin.api:
+                class: AppBundle\Admin\ApiAdmin
+                arguments: [~, AppBundle\Entity\Api, ~]
+                tags:
+                    - { name: sonata.admin, manager_type: orm, label: Api }
+    admin.point:
+                    class: AppBundle\Admin\PointAdmin
+                    arguments: [~, AppBundle\Entity\Point, ~]
+                    tags:
+                        - { name: sonata.admin, manager_type: orm, label: Point }
