@@ -9,11 +9,17 @@ use AppBundle\Command\ParserAbstract;
 class InterpelacjeCommand extends ParserAbstract
 {
     private $invalidWords = [
-        "interpelacja", "ws.", "na", "za"
+        "interpelacja",
+        "ws.",
+        "na",
+        "za",
     ];
 
     private $allowedWords = [
-        'ul.', 'ulic', 'ulica', 'ulicy'
+        'ul.',
+        'ulic',
+        'ulica',
+        'ulicy',
     ];
 
     protected function configure()
@@ -36,11 +42,12 @@ class InterpelacjeCommand extends ParserAbstract
                 $totalSize = $ite->interpelacje->total_size;
                 $totalPages = ceil($totalSize / $this->category->getApi()->getItemPerPage());
                 for ($i = 1; $i <= $totalPages; $i++) {
-                    $url = $this->category->getApi()->getDataAddress() . $i;
+                    $url = $this->category->getApi()->getDataAddress().$i;
                     $returnArray[] = $this->getPage($url);
                 }
             }
         }
+
         return $returnArray;
     }
 
@@ -61,6 +68,7 @@ class InterpelacjeCommand extends ParserAbstract
                 }
             }
         }
+
         return $returnArray;
     }
 
@@ -85,15 +93,19 @@ class InterpelacjeCommand extends ParserAbstract
                             break;
                         }
                     }
+
                     return $returnArray;
                 }
             }
         }
 
         //remove invalid and too short
-        $test = array_filter($explodedSubject, function ($elem) {
-            return !in_array(strtolower($elem), $this->invalidWords) && strlen($elem) > 2;
-        });
+        $test = array_filter(
+            $explodedSubject,
+            function ($elem) {
+                return !in_array(strtolower($elem), $this->invalidWords) && strlen($elem) > 2;
+            }
+        );
 
         return $test;
     }
@@ -108,15 +120,18 @@ class InterpelacjeCommand extends ParserAbstract
 
     protected function getLatLong($address)
     {
-        $entity = $this->_em->getRepository('AppBundle:Point')->findOneBy([
-            'street' => $address[0],
-            'city' => $this->category->getCitiy()
-        ]);
+        $entity = $this->_em->getRepository('AppBundle:Point')->findOneBy(
+            [
+                'street' => $address[0],
+                'city' => $this->category->getCitiy(),
+            ]
+        );
 
         if ($entity) {
             $stdClass = new stdClass();
             $stdClass->lat = $entity->getLat();
             $stdClass->lng = $entity->getLng();
+
             return $stdClass;
         }
 

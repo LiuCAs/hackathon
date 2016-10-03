@@ -29,11 +29,12 @@ class PracaCommand extends ParserAbstract
                 $totalSize = $ite->oferty_pracy->total_size;
                 $totalPages = ceil($totalSize / $this->category->getApi()->getItemPerPage());
                 for ($i = 1; $i <= $totalPages; $i++) {
-                    $newUrl = $this->category->getApi()->getDataAddress() . $i;
+                    $newUrl = $this->category->getApi()->getDataAddress().$i;
                     $returnArray[] = $this->getPage($newUrl);
                 }
             }
         }
+
         return $returnArray;
     }
 
@@ -55,6 +56,7 @@ class PracaCommand extends ParserAbstract
                 }
             }
         }
+
         return $returnArray;
     }
 
@@ -72,6 +74,7 @@ class PracaCommand extends ParserAbstract
     {
         $content = json_decode(file_get_contents($details));
         $mainKey = "bip.poznan.pl";
+
         return json_encode($content->{$mainKey}->data[0]->oferty_pracy->items[0]);
     }
 
@@ -81,7 +84,7 @@ class PracaCommand extends ParserAbstract
         try {
             $PointModel->setCategory($this->category);
             $PointModel->setCity($this->category->getCity());
-            $PointModel->setSubject($jsonModel->stanowisko . " - " . $jsonModel->nazwa_organizacja);
+            $PointModel->setSubject($jsonModel->stanowisko." - ".$jsonModel->nazwa_organizacja);
             $PointModel->setDate($jsonModel->data_publikacji);
             $PointModel->setInternalId($jsonModel->id);
             $PointModel->setDetails($this->parseDetails($jsonModel->link));

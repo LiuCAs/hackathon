@@ -40,14 +40,16 @@ class ElasticCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $places = array();
-        $streets = array();
-        $communities = array();
+        $places = [];
+        $streets = [];
+        $communities = [];
 
         $repoDistrict = $this->_em->getRepository('FSiTerytDbBundle:District');
-        $districtCollection = $repoDistrict->findBy(array(
-            'code' => array(3064, 663)
-        ));
+        $districtCollection = $repoDistrict->findBy(
+            [
+                'code' => [3064, 663],
+            ]
+        );
 
         foreach ($districtCollection as $district) {
             $communities[] = $district->getCommunities();
@@ -68,7 +70,7 @@ class ElasticCommand extends ContainerAwareCommand
         }
 
         $this->initElastic();
-        
+
         foreach ($streets as $streetCollection) {
             foreach ($streetCollection as $street) {
                 /** @var Street $street */
@@ -81,7 +83,7 @@ class ElasticCommand extends ContainerAwareCommand
     {
         $ch = curl_init();
 
-        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt');
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost.'/teryt');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -90,17 +92,21 @@ class ElasticCommand extends ContainerAwareCommand
         curl_close($ch);
 
         $ch = curl_init();
-        $jsonString = file_get_contents(__DIR__ . '/../../../ES_Config.json');
+        $jsonString = file_get_contents(__DIR__.'/../../../ES_Config.json');
 
-        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt/ulice/');
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost.'/teryt/ulice/');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($jsonString)
-        ));
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            [
+                'Content-Type: application/json',
+                'Content-Length: '.strlen($jsonString),
+            ]
+        );
 
         curl_exec($ch);
         curl_close($ch);
@@ -113,15 +119,19 @@ class ElasticCommand extends ContainerAwareCommand
         $timeout = 0;
         $jsonString = sprintf('{"code":"%s","name":"%s"}', $district->getCode(), $street->getName());
 
-        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost . '/teryt/ulice/');
+        curl_setopt($ch, CURLOPT_URL, $this->_elasticHost.'/teryt/ulice/');
         curl_setopt($ch, CURLOPT_PORT, $this->_elasticPort);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonString);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($jsonString)
-        ));
+        curl_setopt(
+            $ch,
+            CURLOPT_HTTPHEADER,
+            [
+                'Content-Type: application/json',
+                'Content-Length: '.strlen($jsonString),
+            ]
+        );
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 
         curl_exec($ch);

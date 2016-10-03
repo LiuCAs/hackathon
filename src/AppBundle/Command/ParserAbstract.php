@@ -59,11 +59,12 @@ abstract class ParserAbstract extends ContainerAwareCommand
     protected function getLatLong($address)
     {
         $addressString = implode("+", $address);
-        $addressString .= ",+" . $this->category->getCity();
-        $addressString .= ",+" . $this->category->setCountry();
-        $addressString .= "&key=" . $this->_googleApiKey;
-        $url = $this->googleBaseAddress . $addressString;
+        $addressString .= ",+".$this->category->getCity();
+        $addressString .= ",+".$this->category->setCountry();
+        $addressString .= "&key=".$this->_googleApiKey;
+        $url = $this->googleBaseAddress.$addressString;
         $json = json_decode(file_get_contents($url));
+
         return $json->results[0]->geometry->location;
     }
 

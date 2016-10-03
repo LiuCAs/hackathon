@@ -14,36 +14,36 @@ class Location
 
     public function gdzieJestSeba($code, $text)
     {
-        $query = array(
+        $query = [
             'from' => 0,
             'size' => 5,
-            'min_score' => 0.005
-        );
+            'min_score' => 0.005,
+        ];
 
-        $query['query']['bool']['must'][]['match']['code'] = array(
-            'query' => (string) $code,
+        $query['query']['bool']['must'][]['match']['code'] = [
+            'query' => (string)$code,
             'operator' => 'and',
-            'boost' => 0.01
-        );
+            'boost' => 0.01,
+        ];
 
-        $query['query']['bool']['should'][]['match']['name'] = array(
-            'query' => (string) $text
-        );
+        $query['query']['bool']['should'][]['match']['name'] = [
+            'query' => (string)$text,
+        ];
 
         $var = $this->request('/teryt/ulice/_search', 'POST', $query);
 
         $var = (json_decode($var));
 
-        if(!empty($var->hits->hits)) {
+        if (!empty($var->hits->hits)) {
             return $var->hits->hits[0]->_source->name;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
-    private function request($path, $method = 'GET', array $content = array())
+    private function request($path, $method = 'GET', array $content = [])
     {
-        $url = $this->_elasticHost . $path;
+        $url = $this->_elasticHost.$path;
 
         $jsonData = json_encode($content);
 

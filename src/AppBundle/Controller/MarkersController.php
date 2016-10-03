@@ -31,8 +31,12 @@ class MarkersController extends FOSRestController
 
         $points = $query->getResult();
 
-        return $this->view($points, Response::HTTP_OK, [
-            'Access-Control-Allow-Origin' => '*'
-        ]);
+        return $this->view(
+            $points,
+            Response::HTTP_OK,
+            [
+                'Access-Control-Allow-Origin' => '*',
+            ]
+        );
     }
 }
